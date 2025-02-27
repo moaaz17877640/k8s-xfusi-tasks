@@ -1,0 +1,43 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"CronJob","metadata":{"annotations":{},"name":"devops","namespace":"default"},"spec":{"jobTemplate":{"spec":{"template":{"spec":{"containers":[{"command":["/bin/sh","-c","date; echo Welcome to xfusioncorp!"],"image":"httpd:latest","imagePullPolicy":"IfNotPresent","name":"cron-devops"}],"restartPolicy":"OnFailure"}}}},"schedule":"*/8 * * * *"}}
+  creationTimestamp: "2025-02-27T18:48:04Z"
+  generation: 1
+  name: devops
+  namespace: default
+  resourceVersion: "9143"
+  uid: 53e4e47f-f911-4f26-a43f-37ff0245c0e4
+spec:
+  concurrencyPolicy: Allow
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - command:
+            - /bin/sh
+            - -c
+            - date; echo Welcome to xfusioncorp!
+            image: httpd:latest
+            imagePullPolicy: IfNotPresent
+            name: cron-devops
+            resources: {}
+            terminationMessagePath: /dev/termination-log
+            terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: OnFailure
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+  schedule: '*/8 * * * *'
+  successfulJobsHistoryLimit: 3
+  suspend: false
+status: {}
