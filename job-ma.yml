@@ -1,0 +1,49 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    batch.kubernetes.io/job-tracking: ""
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"batch/v1","kind":"Job","metadata":{"annotations":{},"name":"countdown-nautilus","namespace":"default"},"spec":{"backoffLimit":4,"template":{"metadata":{"name":"countdown-nautilus"},"spec":{"containers":[{"command":["sleep","5"],"image":"centos:latest","name":"container-countdown-nautilus"}],"restartPolicy":"Never"}}}}
+  generation: 1
+  labels:
+    batch.kubernetes.io/controller-uid: a6a36b29-db1a-475c-838d-38ae5cdf7a86
+    batch.kubernetes.io/job-name: countdown-nautilus
+    controller-uid: a6a36b29-db1a-475c-838d-38ae5cdf7a86
+    job-name: countdown-nautilus
+  name: countdown-nautilus
+  namespace: default
+spec:
+  backoffLimit: 4
+  completionMode: NonIndexed
+  completions: 1
+  parallelism: 1
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: a6a36b29-db1a-475c-838d-38ae5cdf7a86
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        batch.kubernetes.io/job-name: countdown-nautilus
+        job-name: countdown-nautilus
+      name: countdown-nautilus
+    spec:
+      containers:
+      - command:
+        - sleep
+        - "5"
+        image: centos:latest
+        imagePullPolicy: Always
+        name: container-countdown-nautilus
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  uncountedTerminatedPods: {}
