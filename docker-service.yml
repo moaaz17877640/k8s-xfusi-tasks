@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  httpd-service:
+    image: httpd:latest
+    container_name: httpd
+    ports:
+      - "6300:80"
+    volumes:
+      - /opt/security:/usr/local/apache2/htdocs
+
+volumes:
+  db-data:
+    driver: flocker
+    driver_opts:
+      size: "10GiB"
+
