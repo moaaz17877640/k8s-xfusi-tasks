@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"lamp"},"name":"lamp-service","namespace":"default"},"spec":{"ports":[{"nodePort":30009,"port":80}],"selector":{"app":"lamp","tier":"frontend"},"type":"NodePort"}}
+  creationTimestamp: "2025-03-07T12:48:38Z"
+  labels:
+    app: lamp
+  name: lamp-service
+  namespace: default
+  resourceVersion: "2693"
+  uid: 0944c810-ded0-4794-88dc-0d03c69881fb
+spec:
+  clusterIP: 10.96.235.5
+  clusterIPs:
+  - 10.96.235.5
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30008
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: lamp
+    tier: frontend
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
