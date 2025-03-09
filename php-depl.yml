@@ -1,7 +1,6 @@
 # 1) Create a config map php-config for php.ini with variables_order
 # = "EGPCS" data.
 # 2) Create a deployment named lamp-wp.
-
 # 3) Create two containers under it. 
 # First container must be httpd-php-container using image 
 # webdevops/php-apache:alpine-3-php7 and second container must be
