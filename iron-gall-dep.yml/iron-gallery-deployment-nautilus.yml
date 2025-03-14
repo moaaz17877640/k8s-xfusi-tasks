@@ -1,0 +1,41 @@
+ apiVersion : v1
+ kind : Namespace
+ metadata : 
+   name : iron-namespace-datacenter
+---
+apiVersion : apps/v1
+kind : Deployment
+metadata : 
+  name : iron-gallery-deployment-datacenter
+  namespace : iron-namespace-datacenter
+  labels : 
+    run : iron-gallery
+spec :
+  replicas : 1
+  selector : 
+    matchLabels : 
+      run : iron-gallery
+  template : 
+    metadata : 
+      labels : 
+        run : iron-gallery
+    spec : 
+      containers : 
+        - name : iron-gallery-container-datacenter
+          image : kodekloud/irongallery:2.0
+          ports : 
+            - containerPort : 80
+          resources : 
+            limits : 
+              memory : "100Mi"
+              cpu : "50m"
+          volumeMounts : 
+            - mountPath : /usr/share/nginx/html/data
+              name : config
+            - mountPath : /usr/share/nginx/html/uploads
+              name : images
+      volumes : 
+        - name : config
+          emptyDir : {}
+        - name : images
+          emptyDir : {}
