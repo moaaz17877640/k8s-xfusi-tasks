@@ -1,0 +1,89 @@
+apiVersion : v1
+kind : PersistentVolume
+metadata :
+  name : drupal-mysql-pv
+spec :
+  capacity :
+    storage : 5Gi
+  accessModes :
+    - ReadWriteOnce
+  hostPath :
+    path : /drupal-mysql-data
+---
+apiVersion : v1
+kind : PersistentVolumeClaim
+metadata :
+  name : drupal-mysql-pvc
+spec :
+  accessModes :
+    - ReadWriteOnce
+  resources :
+    requests :
+      storage : 3Gi
+---
+apiVersion : v1
+kind : Deployment
+metadata :
+  name : drupal-mysql
+  labels :
+    app : drupal
+    tier : back-end
+spec :
+  replicas : 1
+  selector :
+    matchLabels :
+      app : drupal
+      tier : back-end
+  template :
+    metadata :
+      labels :
+        app : drupal
+        tier : back-end
+    spec :
+      volumes :
+        - name : drupal-mysql-pv
+          persistentVolumeClaim :
+            claimName : drupal-mysql-pvc
+      containers :
+        - name : drupal-mysql-container
+          image : mysql:5.7
+          env :
+            - name : MYSQL_ROOT_PASSWORD
+              value : password
+          volumeMounts :
+            - name : drupal-mysql-pv
+              mountPath : /var/lib/mysql
+---
+apiVersion : v1
+kind : Deployment
+metadata :
+  name : drupal 
+  labels :
+    app : drupal
+    tier : front-end
+spec :
+  replicas : 1
+  selector :
+    matchLabels :
+      app : drupal
+      tier : front-end
+  template :
+    metadata :
+      labels :
+        app : drupal
+        tier : front-end
+    spec :
+      Containers :
+        - name : drupal-container
+          image : drupal:8.6
+          env :
+            - name : DRUPAL_DATABASE_HOST
+              value : drupal-mysql
+            - name : DRUPAL_DATABASE_PASSWORD
+              value : password
+          ports :
+            - containerPort : 80
+          volumeMounts :
+            - name : drupal-mysql-pv
+              mountPath : /var/www/html
+            
